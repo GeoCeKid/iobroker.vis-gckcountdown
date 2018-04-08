@@ -26,7 +26,7 @@
         "icon":                 "gck.countdown.png",
         "enabled":              true,
         "mode":                 "once",
-        "extIcon":              "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/raw/master/adapter/example/admin/example.png",
+        "extIcon":              "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/raw/master/admin/gck.countdown.png",
         "keywords":             ["countdown", "vis", "GUI", "graphical", "scada"],
         "readme":               "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/blob/master/README.md",
         "authors": [

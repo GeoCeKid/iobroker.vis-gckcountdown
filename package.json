@@ -1,6 +1,6 @@
 {
   "name": "iobroker.vis-gck.countdown",
-  "description": "gck.countdown Widgets for ioBroker.vis",
+  "description": "Countdown Widgets for ioBroker.vis",
   "version": "0.0.1",
   "author": {
     "name": "GeoCeKid",
