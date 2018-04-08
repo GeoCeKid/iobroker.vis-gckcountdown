@@ -1,6 +1,6 @@
 {
     "common": {
-        "name":                 "iobroker.vis-gck.countdown",
+        "name":                 "iobroker.vis-gckcountdown",
         "version": "0.0.1",
         "news": {     
             "0.0.1": {
@@ -16,19 +16,19 @@
         "desc": {
             "en": "countdown Widgets for ioBroker.vis",
             "de": "countdown Widgets für ioBroker.vis",
-            "ru": "gck.countdown Widgets для ioBroker.vis",
+            "ru": "gckcountdown Widgets для ioBroker.vis",
             "pt": "molde de Widgets para o ioBroker.vis",
             "fr": "modèle de Widgets pour ioBroker.vis",
             "nl": "sjabloon widgets voor ioBroker.vis"
         },
         "platform":             "Javascript/Node.js",
         "loglevel":             "debug",
-        "icon":                 "gck.countdown.png",
+        "icon":                 "gckcountdown.png",
         "enabled":              true,
         "mode":                 "once",
-        "extIcon":              "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/raw/master/admin/gck.countdown.png",
+        "extIcon":              "https://github.com/GeoCeKid/ioBroker.vis-gckcountdown/raw/master/admin/gckcountdown.png",
         "keywords":             ["countdown", "vis", "GUI", "graphical", "scada"],
-        "readme":               "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/blob/master/README.md",
+        "readme":               "https://github.com/GeoCeKid/ioBroker.vis-gckcountdown/blob/master/README.md",
         "authors": [
             "GeoCeKid <tgoedicke89@gmail.com"
         ],

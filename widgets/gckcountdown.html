@@ -6,9 +6,9 @@
     Copyright 4.2018 GeoCeKid <tgoedicke89@gmail.com>
 -->
 <!-- here you can include so many css as you want -->
-<!-- <link rel="stylesheet" href="widgets/gck.countdown/css/style.css" /> -->
+<!-- <link rel="stylesheet" href="widgets/gckcountdown/css/style.css" /> -->
 <!-- here you can include so many js-files as you want -->
-<!-- <script type="text/javascript" src="widgets/gck.countdown/js/gck.countdown.js"></script> -->
+<!-- <script type="text/javascript" src="widgets/gckcountdown/js/gckcountdown.js"></script> -->
 
 <script language="javascript">
 	"use strict";
@@ -50,13 +50,13 @@
 		"Instance":	{"en": "Instance",	"de": "Instanz", "ru": "Инстанция"}
 	});
 	
-	vis.binds.gck.countdown = {
+	vis.binds.gckcountdown = {
 		timerId: {}, // timerId Object für Countdown
 		version: "0.0.1",
 		showVersion: function () {
-			if (vis.binds.gck.countdown.version) {
-				console.log('Version gck.countdown: ' + vis.binds.gck.countdown.version);
-				vis.binds.gck.countdown.version = null;
+			if (vis.binds.gckcountdown.version) {
+				console.log('Version gckcountdown: ' + vis.binds.gckcountdown.version);
+				vis.binds.gckcountdown.version = null;
 			}
 		},
 		countdown: function (data) {
@@ -66,14 +66,14 @@
 			// if nothing found => wait
 			if (!$div.length) {
 				return setTimeout(function () {
-					vis.binds.gck.countdown.countdown(data);
+					vis.binds.gckcountdown.countdown(data);
 				}, 100);
 			}
 
 			// if data.oid (Datenpunkt) changed
 			if (data.oid) {
 				vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
-					vis.binds.gck.countdown.countdown(data);
+					vis.binds.gckcountdown.countdown(data);
 				});
 			}
 
@@ -103,8 +103,8 @@
 			}
 
 			// Countdown setzen
-			clearInterval(vis.binds.gck.countdown.timerId[data.wid]); // Alten Countdown löschen falls vorhanden
-			vis.binds.gck.countdown.timerId[data.wid] = setInterval(function() {
+			clearInterval(vis.binds.gckcountdown.timerId[data.wid]); // Alten Countdown löschen falls vorhanden
+			vis.binds.gckcountdown.timerId[data.wid] = setInterval(function() {
 				var output = '';
 				// Get todays date and time
 				var now = new Date().getTime();
@@ -158,7 +158,7 @@
 						}
 					}
 				} else {
-					clearInterval(vis.binds.gck.countdown.timerId[data.wid]);
+					clearInterval(vis.binds.gckcountdown.timerId[data.wid]);
 					output += data.format_Abg;
 				}
 				$div.html(output);
@@ -168,10 +168,10 @@
 		
 </script>
 
-<script id="tplGck.CountdownString"
+<script id="tplGckCountdownString"
 		type="text/ejs"
 		class="vis-tpl"
-		data-vis-prev='<img src="widgets/gck.countdown/img/Prev_gck.CountdownString.png"></img>'
+		data-vis-prev='<img src="widgets/gckcountdown/img/Prev_gckCountdownString.png"></img>'
 		data-vis-attrs="oid/id; html_prepend/html; html_append/html; countdown_akt[1]/number;"
 		data-vis-attrs0="group.format;
 						 format_Abg[EXPIRED];
@@ -182,14 +182,14 @@
 		data-vis-attrs1="group.test;
 						 test_format[test_off]/select,test_off,Seconds,Minutes,Hours,Days;
 						 test_data[300]/number;"
-		data-vis-set="gck.countdown"
+		data-vis-set="gckcountdown"
 		data-vis-type="val, countdown"
 		data-vis-name="Countdown String">
 	<div class="vis-widget <%== this.data.attr('class') %>" style="top:0px; left: 0px; width: 50px; height: 20px;" id="<%= this.data.attr('wid') %>">
 		<span class="vis-widget-body">
 			<%== this.data.attr('html_prepend') %>
 			<span id="<%= this.data.attr('wid') %>_countdown">
-				<% vis.binds.gck.countdown.countdown(this.data) %>
+				<% vis.binds.gckcountdown.countdown(this.data) %>
 			</span>
 			<%== this.data.attr('html_append') %> 
 		</div>

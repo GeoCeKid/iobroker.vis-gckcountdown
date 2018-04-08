@@ -1,5 +1,5 @@
-![Logo](admin/gck.countdown.png)
-ioBroker.vis-gck.countdown
+![Logo](admin/gckcountdown.png)
+ioBroker.vis-gckcountdown
 ============
 
 ## Description

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
     if (process.argv[2] == 'rename') {
 		console.log('Try to rename to "' + newname + '"');
         if (!newname) {
-            console.log('Please write the new gck.countdown name, like: "grunt rename --name=mywidgetset" --author="Author Name"');
+            console.log('Please write the new gckcountdown name, like: "grunt rename --name=mywidgetset" --author="Author Name"');
             process.exit();
         }
         if (newname.indexOf(' ') != -1) {
@@ -31,17 +31,17 @@ module.exports = function (grunt) {
             console.log('Name must be lower case.');
             process.exit();
         }
-        if (fs.existsSync(__dirname + '/admin/gck.countdown.png')) {
-            fs.renameSync(__dirname + '/admin/gck.countdown.png',              __dirname + '/admin/' + newname + '.png');
+        if (fs.existsSync(__dirname + '/admin/gckcountdown.png')) {
+            fs.renameSync(__dirname + '/admin/gckcountdown.png',              __dirname + '/admin/' + newname + '.png');
         }
-        if (fs.existsSync(__dirname + '/widgets/gck.countdown.html')) {
-            fs.renameSync(__dirname + '/widgets/gck.countdown.html',           __dirname + '/widgets/' + newname + '.html');
+        if (fs.existsSync(__dirname + '/widgets/gckcountdown.html')) {
+            fs.renameSync(__dirname + '/widgets/gckcountdown.html',           __dirname + '/widgets/' + newname + '.html');
         }
-        if (fs.existsSync(__dirname + '/widgets/gck.countdown/js/gck.countdown.js')) {
-            fs.renameSync(__dirname + '/widgets/gck.countdown/js/gck.countdown.js', __dirname + '/widgets/gck.countdown/js/' + newname + '.js');
+        if (fs.existsSync(__dirname + '/widgets/gckcountdown/js/gckcountdown.js')) {
+            fs.renameSync(__dirname + '/widgets/gckcountdown/js/gckcountdown.js', __dirname + '/widgets/gckcountdown/js/' + newname + '.js');
         }
-        if (fs.existsSync(__dirname + '/widgets/gck.countdown')) {
-            fs.renameSync(__dirname + '/widgets/gck.countdown',                __dirname + '/widgets/' + newname);
+        if (fs.existsSync(__dirname + '/widgets/gckcountdown')) {
+            fs.renameSync(__dirname + '/widgets/gckcountdown',                __dirname + '/widgets/' + newname);
         }
     }
 
@@ -91,12 +91,12 @@ module.exports = function (grunt) {
                 options: {
                     patterns: [
                         {
-                            match: /gck.countdown/g,
+                            match: /gckcountdown/g,
                             replacement: newname
                         },
                         {
-                            match: /Gck.countdown/g,
-                            replacement: newname ? (newname[0].toUpperCase() + newname.substring(1)) : 'Gck.countdown'
+                            match: /Gckcountdown/g,
+                            replacement: newname ? (newname[0].toUpperCase() + newname.substring(1)) : 'Gckcountdown'
                         },
                         {
                             match: /GeoCeKid/g,
