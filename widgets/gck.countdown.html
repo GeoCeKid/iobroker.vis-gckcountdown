@@ -1,0 +1,197 @@
+<!--
+    ioBroker.vis Countdown Widget-Set
+
+    version: "0.0.1"
+
+    Copyright 4.2018 GeoCeKid <tgoedicke89@gmail.com>
+-->
+<!-- here you can include so many css as you want -->
+<!-- <link rel="stylesheet" href="widgets/gck.countdown/css/style.css" /> -->
+<!-- here you can include so many js-files as you want -->
+<!-- <script type="text/javascript" src="widgets/gck.countdown/js/gck.countdown.js"></script> -->
+
+<script language="javascript">
+	"use strict";
+	// add translations for edit mode
+	if (vis.editMode) {
+		$.extend(true, systemDictionary, {
+			"countdown_akt":		{"en": "refresh rate",	"de": "Aktualisierungsrate"},
+			"countdown_akt_tooltip": {
+				"en": "Refresh rate in seconds",
+				"de": "Aktualisierungsrate in Sekunden"
+			},
+			"group_test":			{"en": "Test Settings",	"de": "Test Einstellungen"},
+			"test_format":			{"en": "Add",			"de": "Hinzufügen"},
+			"test_off": 			{"en": "Nothing (OFF)", "de": "Nichts (AUS)"},
+			"Seconds" :				{"en": "Seconds",		"de": "Sekunden"},
+			"Minutes" :				{"en": "Minutes",		"de": "Minuten"},
+			"Hours" :				{"en": "Hours",			"de": "Stunden"},
+			"Days" :				{"en": "Days",			"de": "Tage"},
+			"test_data":			{"en": "Test Data",		"de": "Test Data"},
+			"test_data_tooltip": {
+				"en": "Days / Hours / Minutes / Seconds to add",
+				"de": "Tage / Stunden / Minuten / Sekunden hinzufügen"
+			},
+			"group_format":		{"en": "Display Settings",	"de": "Anzeigeeinstellungen"},
+			"format_Abg":		{"en": "Text for expired",	"de": "Text für Abgelaufen"},
+			"format_S":			{"en": "Show seconds",		"de": "Sekunden anzeigen"},
+			"format_S_Text":	{"en": "Append to seconds",	"de": "An Sekunden anhängen"},
+			"format_M":			{"en": "Show minutes",		"de": "Minuten anzeigen"},
+			"format_M_Text":	{"en": "Append to minutes",	"de": "An Minuten anhängen"},
+			"format_H":			{"en": "Show hours",		"de": "Stunden anzeigen"},
+			"format_H_Text":	{"en": "Append to hours",	"de": "An Stunden anhängen"},
+			"format_D":			{"en": "Show days",			"de": "Tage anzeigen"},
+			"format_D_Text":	{"en": "Append to days",	"de": "An Tage anhängen"}
+		});
+	}
+
+	// add translations for non-edit mode
+	$.extend(true, systemDictionary, {
+		"Instance":	{"en": "Instance",	"de": "Instanz", "ru": "Инстанция"}
+	});
+	
+	vis.binds.gck.countdown = {
+		timerId: {}, // timerId Object für Countdown
+		version: "0.0.1",
+		showVersion: function () {
+			if (vis.binds.gck.countdown.version) {
+				console.log('Version gck.countdown: ' + vis.binds.gck.countdown.version);
+				vis.binds.gck.countdown.version = null;
+			}
+		},
+		countdown: function (data) {
+			var $div = $('#' + data.wid + '_countdown');
+			var countDownDate;
+			
+			// if nothing found => wait
+			if (!$div.length) {
+				return setTimeout(function () {
+					vis.binds.gck.countdown.countdown(data);
+				}, 100);
+			}
+
+			// if data.oid (Datenpunkt) changed
+			if (data.oid) {
+				vis.states.bind(data.oid + '.val', function (e, newVal, oldVal) {
+					vis.binds.gck.countdown.countdown(data);
+				});
+			}
+
+			// Vorschau aus / ein
+			if (vis.editMode) {
+				countDownDate = new Date().getTime();
+				switch (data.test_format) {
+					default:
+					case 'test_off':
+						countDownDate = vis.states[data.oid + '.val'];
+						break;
+					case 'Seconds':
+						countDownDate += (1000 * data.test_data);
+						break;
+					case 'Minutes':
+						countDownDate += (1000 * 60 * data.test_data);
+						break;
+					case 'Hours':
+						countDownDate += (1000 * 60 * 60 * data.test_data);
+						break;
+					case 'Days':
+						countDownDate += (1000 * 60 * 60 * 24 * data.test_data);
+						break;
+				}
+			} else {
+				countDownDate = vis.states[data.oid + '.val'];
+			}
+
+			// Countdown setzen
+			clearInterval(vis.binds.gck.countdown.timerId[data.wid]); // Alten Countdown löschen falls vorhanden
+			vis.binds.gck.countdown.timerId[data.wid] = setInterval(function() {
+				var output = '';
+				// Get todays date and time
+				var now = new Date().getTime();
+				// Find the distance between now an the count down date
+				var distance = countDownDate - now;
+				if (distance > 0) {
+					var dayD  = Math.floor(distance / (1000 * 60 * 60 * 24));
+					var dayP  = Math.floor(distance % (1000 * 60 * 60 * 24));
+					var hourD = Math.floor(distance / (1000 * 60 * 60));
+					var hourP = Math.floor(distance % (1000 * 60 * 60));
+					var minD  = Math.floor(distance / (1000 * 60));
+					var minP  = Math.floor(distance % (1000 * 60));
+
+					if (data.format_D && dayD > 0) {
+						output += dayD + ' ' + data.format_D_Text;
+					}
+					if ((data.format_H && hourD > 0) || dayD <= 0) {
+						if (data.format_D && dayD > 0) {
+							output += ' ' + Math.floor(dayP / (1000 * 60 * 60)) + ' ' + data.format_H_Text;
+						} else if (data.format_H && hourD > 0) {
+							output += hourD + ' ' + data.format_H_Text;
+						}
+					}
+					if ((data.format_M && minD > 0) || (dayD <= 0 && hourD <= 0)) {
+						if (data.format_H && hourD > 0) {
+							output += ' ' + Math.floor(hourP / (1000 * 60)) + ' ' + data.format_M_Text;
+						} else {
+							if (data.format_D && dayD > 0) {
+								output += ' ' + Math.floor(dayP / (1000 * 60)) + ' ' + data.format_M_Text;
+							} else if (data.format_M && minD > 0) {
+								output += minD + ' ' + data.format_M_Text;
+							}
+						}
+					}
+					if (data.format_S || (dayD <= 0 && hourD <= 0 && minD <= 0)) {
+						if (data.format_M && minD > 0) {
+							output += ' ' + ((Math.floor(minP / 1000) < 10) ? ('0' + Math.floor(minP / 1000)) : (Math.floor(minP / 1000))) + ' ' + data.format_S_Text;
+							//output += ' ' + Math.floor(minP / 1000) + ' ' + data.format_S_Text;
+						} else {
+							if (data.format_H && hourD > 0) {
+								output += ' ' + ((Math.floor(hourP / 1000) < 10) ? ('0' + Math.floor(hourP / 1000)) : (Math.floor(hourP / 1000))) + ' ' + data.format_S_Text;
+								//output += ' ' + Math.floor(hourP / 1000) + ' ' + data.format_S_Text;
+							} else {
+								if (data.format_D && dayD > 0) {
+									output += ' ' + ((Math.floor(dayP / 1000) < 10) ? ('0' + Math.floor(dayP / 1000)) : (Math.floor(dayP / 1000))) + ' ' + data.format_S_Text;
+									//output += ' ' + Math.floor(dayP / 1000) + ' ' + data.format_S_Text;
+								} else {
+									output += Math.floor(distance / 1000) + ' ' + data.format_S_Text;
+								}
+							}
+						}
+					}
+				} else {
+					clearInterval(vis.binds.gck.countdown.timerId[data.wid]);
+					output += data.format_Abg;
+				}
+				$div.html(output);
+			}, data.countdown_akt * 1000);
+		}
+	};
+		
+</script>
+
+<script id="tplGck.CountdownString"
+		type="text/ejs"
+		class="vis-tpl"
+		data-vis-prev='<img src="widgets/gck.countdown/img/Prev_gck.CountdownString.png"></img>'
+		data-vis-attrs="oid/id; html_prepend/html; html_append/html; countdown_akt[1]/number;"
+		data-vis-attrs0="group.format;
+						 format_Abg[EXPIRED];
+						 format_S[true]/checkbox; format_S_Text[s];
+						 format_M/checkbox; format_M_Text[m];
+						 format_H/checkbox; format_H_Text[h];
+						 format_D/checkbox; format_D_Text[d];"
+		data-vis-attrs1="group.test;
+						 test_format[test_off]/select,test_off,Seconds,Minutes,Hours,Days;
+						 test_data[300]/number;"
+		data-vis-set="gck.countdown"
+		data-vis-type="val, countdown"
+		data-vis-name="Countdown String">
+	<div class="vis-widget <%== this.data.attr('class') %>" style="top:0px; left: 0px; width: 50px; height: 20px;" id="<%= this.data.attr('wid') %>">
+		<span class="vis-widget-body">
+			<%== this.data.attr('html_prepend') %>
+			<span id="<%= this.data.attr('wid') %>_countdown">
+				<% vis.binds.gck.countdown.countdown(this.data) %>
+			</span>
+			<%== this.data.attr('html_append') %> 
+		</div>
+	</div>
+</script>

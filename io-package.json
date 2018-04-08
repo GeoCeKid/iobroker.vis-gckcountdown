@@ -1,0 +1,49 @@
+{
+    "common": {
+        "name":                 "iobroker.vis-gck.countdown",
+        "version": "0.0.1",
+        "news": {     
+            "0.0.1": {
+                "en": "initial adapter",
+                "de": "Initiale Version",
+                "ru": "Первоначальный адаптер",
+                "pt": "Versão inicial",
+                "fr": "Version initiale",
+                "nl": "Eerste release"
+            }
+        },
+        "title":                "ioBroker Visualisation - GCK Countdown Widgets",
+        "desc": {
+            "en": "countdown Widgets for ioBroker.vis",
+            "de": "countdown Widgets für ioBroker.vis",
+            "ru": "gck.countdown Widgets для ioBroker.vis",
+            "pt": "molde de Widgets para o ioBroker.vis",
+            "fr": "modèle de Widgets pour ioBroker.vis",
+            "nl": "sjabloon widgets voor ioBroker.vis"
+        },
+        "platform":             "Javascript/Node.js",
+        "loglevel":             "debug",
+        "icon":                 "gck.countdown.png",
+        "enabled":              true,
+        "mode":                 "once",
+        "extIcon":              "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/raw/master/adapter/example/admin/example.png",
+        "keywords":             ["countdown", "vis", "GUI", "graphical", "scada"],
+        "readme":               "https://github.com/GeoCeKid/ioBroker.vis-gck.countdown/blob/master/README.md",
+        "authors": [
+            "GeoCeKid <tgoedicke89@gmail.com"
+        ],
+        "localLink": "%web_protocol%://%ip%:%web_port%/vis/edit.html",
+        "license": "MIT",
+        "dependencies": ["vis"],
+        "onlyWWW": true,
+        "noConfig": true,
+        "singleton": true,
+        "type": "visualization-widgets",
+        "restartAdapters": ["vis"]
+    },
+    "native": {
+        "dependencies": ["basic"]
+    },
+    "instanceObjects": [
+    ]
+}
